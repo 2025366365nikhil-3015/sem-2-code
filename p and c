@@ -1,0 +1,50 @@
+ #include <stdio.h>
+
+// Function to calculate factorial
+long long factorial(int n) {
+    long long fact = 1;
+    for(int i = 1; i <= n; i++) {
+        fact *= i;
+    }
+    return fact;
+}
+
+int main() {
+    int n, r, choice;
+    long long result;
+
+    printf("Enter value of n: ");
+    scanf("%d", &n);
+
+    printf("Enter value of r: ");
+    scanf("%d", &r);
+
+    // Validate input
+    if (r > n || n < 0 || r < 0) {
+        printf("Invalid input! Ensure n >= r and both are non-negative.\n");
+        return 1;
+    }
+
+    printf("\nChoose operation:\n");
+    printf("1. Permutation (P)\n");
+    printf("2. Combination (C)\n");
+    printf("Enter your choice (1 or 2): ");
+    scanf("%d", &choice);
+
+    switch(choice) {
+        case 1:
+            result = factorial(n) / factorial(n - r);
+            printf("Permutation P(%d, %d) = %lld\n", n, r, result);
+            break;
+
+        case 2:
+            result = factorial(n) / (factorial(r) * factorial(n - r));
+            printf("Combination C(%d, %d) = %lld\n", n, r, result);
+            break;
+
+        default:
+            printf("Invalid choice!\n");
+    }
+
+    return 0;
+}
