@@ -1,0 +1,104 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void input(int arr[], int *n) {
+    printf("Enter number of elements: ");
+    scanf("%d", n);
+
+    printf("Enter elements:\n");
+    for(int i = 0; i < *n; i++) {
+        scanf("%d", &arr[i]);
+    }
+}
+
+void display(int arr[], int n) {
+    printf("Array elements:\n");
+    for(int i = 0; i < n; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+int sum_array(int arr[], int n) {
+    int sum = 0;
+    for(int i = 0; i < n; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+float avg_array(int arr[], int n) {
+    return (float)sum_array(arr, n) / n;
+}
+
+int min_array(int arr[], int n) {
+    int min = arr[0];
+    for(int i = 1; i < n; i++) {
+        if(arr[i] < min)
+            min = arr[i];
+    }
+    return min;
+}
+
+int max_array(int arr[], int n) {
+    int max = arr[0];
+    for(int i = 1; i < n; i++) {
+        if(arr[i] > max)
+            max = arr[i];
+    }
+    return max;
+}
+
+void menu() {
+    printf("\n--- MENU ---\n");
+    printf("1. Input Array\n");
+    printf("2. Display Array & Sum\n");
+    printf("3. Average\n");
+    printf("4. Minimum\n");
+    printf("5. Maximum\n");
+    printf("6. Exit\n");
+    printf("Enter choice: ");
+}
+
+int main() {
+    int arr[100], n = 0, ch;
+
+    while(1) {
+        menu();
+        scanf("%d", &ch);
+
+        switch(ch) {
+            case 1:
+                input(arr, &n);
+                break;
+
+            case 2:
+                display(arr, n);
+                printf("Sum = %d\n", sum_array(arr, n));
+                break;
+
+            case 3:
+                display(arr, n);
+                printf("Average = %.2f\n", avg_array(arr, n));
+                break;
+
+            case 4:
+                display(arr, n);
+                printf("Minimum = %d\n", min_array(arr, n));
+                break;
+
+            case 5:
+                display(arr, n);
+                printf("Maximum = %d\n", max_array(arr, n));
+                break;
+
+            case 6:
+                exit(0);
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    return 0;
+}
