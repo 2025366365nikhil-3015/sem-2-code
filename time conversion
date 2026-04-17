@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+void convert(int sec) {
+    int hr = sec / 3600;
+    int min = (sec % 3600) / 60;
+    int s = sec % 60;
+
+    printf("Time = %d:%d:%d\n", hr, min, s);
+}
+
+int main() {
+    int sec;
+    printf("Enter seconds: ");
+    scanf("%d", &sec);
+
+    convert(sec);
+    return 0;
+}
