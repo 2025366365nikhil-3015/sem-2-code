@@ -1,0 +1,50 @@
+#include <stdio.h>
+#include <string.h>
+
+enum DataType { INT, FLOAT, CHAR };
+
+union Data {
+    int i;
+    float f;
+    char c;
+};
+
+struct Value {
+    enum DataType type;
+    union Data data;
+};
+
+void display(struct Value v) {
+    if (v.type == INT)
+        printf("Integer: %d\n", v.data.i);
+    else if (v.type == FLOAT)
+        printf("Float: %.2f\n", v.data.f);
+    else if (v.type == CHAR)
+        printf("Char: %c\n", v.data.c);
+}
+
+int main() {
+    struct Value v;
+
+    int choice;
+    printf("Enter type (1-INT, 2-FLOAT, 3-CHAR): ");
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        v.type = INT;
+        printf("Enter integer: ");
+        scanf("%d", &v.data.i);
+    } else if (choice == 2) {
+        v.type = FLOAT;
+        printf("Enter float: ");
+        scanf("%f", &v.data.f);
+    } else {
+        v.type = CHAR;
+        printf("Enter char: ");
+        scanf(" %c", &v.data.c);
+    }
+
+    display(v);
+
+    return 0;
+}
