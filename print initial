@@ -1,0 +1,24 @@
+#include <stdio.h>
+#include <string.h>
+
+int main() {
+    char name[100];
+    printf("Enter full name: ");
+    fgets(name, sizeof(name), stdin);
+
+    char *word = strtok(name, " ");
+    int count = 0;
+
+    while (word != NULL) {
+        count++;
+        if (strtok(NULL, " ") == NULL) {
+            // Last word → print full
+            printf("%s", word);
+            break;
+        } else {
+            printf("%c. ", word[0]);
+        }
+        word = strtok(NULL, " ");
+    }
+    return 0;
+}
