@@ -1,0 +1,32 @@
+#include <stdio.h>
+
+struct Date {
+    int day, month, year;
+};
+
+int calculateAge(struct Date dob, struct Date current) {
+    int age = current.year - dob.year;
+
+    if (current.month < dob.month || 
+       (current.month == dob.month && current.day < dob.day)) {
+        age--;
+    }
+
+    return age;
+}
+
+int main() {
+    struct Date dob, current;
+
+    printf("Enter DOB (dd mm yyyy): ");
+    scanf("%d %d %d", &dob.day, &dob.month, &dob.year);
+
+    printf("Enter Current Date (dd mm yyyy): ");
+    scanf("%d %d %d", &current.day, &current.month, &current.year);
+
+    int age = calculateAge(dob, current);
+
+    printf("Age = %d years\n", age);
+
+    return 0;
+}
