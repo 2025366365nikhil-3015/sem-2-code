@@ -1,0 +1,196 @@
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+
+struct User {
+    char username[50];
+    char password[50];
+};
+
+
+struct Item {
+    char name[50];
+    int quantity;
+};
+
+
+int checkUserExists(char username[]);
+void registerUser();
+int loginUser();
+void inventoryMenu();
+void addItem();
+void viewItems();
+
+int main() {
+    int choice;
+
+    while (1) {
+        printf("\n===== MAIN PAGE =====\n");
+        printf("1. Register\n");
+        printf("2. Login\n");
+        printf("3. Exit\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                registerUser();
+                break;
+
+            case 2:
+                if (loginUser()) {
+                    inventoryMenu();
+                }
+                break;
+
+            case 3:
+                printf("Exiting program...\n");
+                exit(0);
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+}
+
+
+int checkUserExists(char username[]) {
+    struct User u;
+    FILE *fp = fopen("users.dat", "rb");
+
+    if (fp == NULL)
+        return 0;
+
+    while (fread(&u, sizeof(u), 1, fp)) {
+        if (strcmp(u.username, username) == 0) {
+            fclose(fp);
+            return 1;
+        }
+    }
+
+    fclose(fp);
+    return 0;
+}
+
+
+void registerUser() {
+    struct User u;
+    FILE *fp = fopen("users.dat", "ab");
+
+    printf("Enter username: ");
+    scanf("%s", u.username);
+
+    if (checkUserExists(u.username)) {
+        printf("Username already exists! Try another.\n");
+        fclose(fp);
+        return;
+    }
+
+    printf("Enter password: ");
+    scanf("%s", u.password);
+
+    fwrite(&u, sizeof(u), 1, fp);
+    fclose(fp);
+
+    printf("Registration successful!\n");
+}
+
+
+int loginUser() {
+    struct User u, temp;
+    FILE *fp = fopen("users.dat", "rb");
+
+    if (fp == NULL) {
+        printf("No users found! Please register first.\n");
+        return 0;
+    }
+
+    printf("Enter username: ");
+    scanf("%s", temp.username);
+
+    printf("Enter password: ");
+    scanf("%s", temp.password);
+
+    while (fread(&u, sizeof(u), 1, fp)) {
+        if (strcmp(u.username, temp.username) == 0 &&
+            strcmp(u.password, temp.password) == 0) {
+
+            fclose(fp);
+            printf("Login successful!\n");
+            return 1;
+        }
+    }
+
+    fclose(fp);
+    printf("Invalid username or password!\n");
+    return 0;
+}
+
+
+void inventoryMenu() {
+    int choice;
+
+    while (1) {
+        printf("\n===== INVENTORY PAGE =====\n");
+        printf("1. Add Item\n");
+        printf("2. View Items\n");
+        printf("3. Logout\n");
+        printf("Enter choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addItem();
+                break;
+
+            case 2:
+                viewItems();
+                break;
+
+            case 3:
+                printf("Logging out...\n");
+                return;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+}
+
+
+void addItem() {
+    struct Item it;
+    FILE *fp = fopen("inventory.dat", "ab");
+
+    printf("Enter item name: ");
+    scanf("%s", it.name);
+
+    printf("Enter quantity: ");
+    scanf("%d", &it.quantity);
+
+    fwrite(&it, sizeof(it), 1, fp);
+    fclose(fp);
+
+    printf("Item added successfully!\n");
+}
+
+
+void viewItems() {
+    struct Item it;
+    FILE *fp = fopen("inventory.dat", "rb");
+
+    if (fp == NULL) {
+        printf("No inventory found!\n");
+        return;
+    }
+
+    printf("\nItem Name\tQuantity\n");
+    printf("--------------------------\n");
+
+    while (fread(&it, sizeof(it), 1, fp)) {
+        printf("%s\t\t%d\n", it.name, it.quantity);
+    }
+
+    fclose(fp);
+}
