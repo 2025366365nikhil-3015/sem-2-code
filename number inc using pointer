@@ -1,0 +1,13 @@
+
+#include<stdio.h>
+void increament( int*p){
+    (*p)++;
+    
+}
+int main(){
+    int x =25;
+    printf("before increament x=%d\n",x);
+    increament(&x);
+    printf("after increament x = %d",x);
+    return 0;
+}
